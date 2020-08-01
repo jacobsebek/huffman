@@ -1,0 +1,68 @@
+This project took me less than a week to complete, it has taught me a lot
+of, if not everything of standard file manipulation in C (both binary and 
+normal). I enjoyed the process of creating a simple buffered bit-level
+manipulation wrapper. It also strengthened my understanding of binary 
+heaps, pointers and text encoding in general.
+The source is ~700 of pure C code. It took me ~30 hours to finish.
+
+I started off programming the compression part, since it felt logical.
+I had a little of previous knowledge of Huffman coding, mainly from Tom
+Scott's video. This project, weirdly enough, didn't require many changes,
+when I wrote something, it stayed almost the same for the rest of the dev
+process. From the start, I wanted the code to be redundant, so it was 
+quite new to me (error checks and messages everywhere), but eventually 
+you get used to this "messy" code. Also I started using the exit() 
+function, which I din't actually know about for quite some time, it makes 
+things a lot easier.
+In this algorithm, the first thing you have to do is to count all the
+occurences of each character in the text and sort them by this value
+(in ascending order), I could have approached this in many ways, for
+example use a binary insertion sort. I chose a rather simpler way,
+hashing (I don't know if it can be even called hashing). I created an
+array of 256 elements, which is enough to encorporate any 8bit encoding,
+which, I think is fine. This simplified the process a lot since every
+index in this array corresponds to each character.
+When I successfully added all the occurences to this hashmap, I created
+a binary min-heap out of it, gradually scanning it and adding every 
+non-null character. (Heap is one of the fancy ways to sort)
+Now I had to reduce the whole heap to only one node, taking the two
+smallest and creating a parent node owning to these two, then just
+inser the parent node appropriately back into the heap. (The heap was
+carried out using an array, but the tree was made with pointers. I have
+thought about encorporating these new nodes with their children back to
+the heap, but that would be very weird and complicated because of making
+space under the node for the children etc.)This is programmaticly very
+easy to implement (about 10 lines of code so far), it comes out to just :
+"pop the heap 2x, create a new node with those two children and put it
+into the heap, until there is a just single element left".
+Then came the design of the format, the head is a 3 byte string, simply
+saying "HUF" to distinguish the format, then comes the number of leaves
+(again, fits perfectly to a single byte, thanks to our 256 logic) that is 
+needed to build the tree accordingly. Then there is one byte reserved for
+purposes we will discuss later, that is followed by a sequence of bits
+telling the decompressor how to build the structure (not the characters 
+yet) correctly and right after that, a string of 1 byte characters to fill
+the empty tree with (again, very simple with our 1 byte system), then there
+was the encoded text itself, huffman code can be written down just as a
+continous string of bits, because of it's genius design, you read the bits
+until you get to a leaf node and then just get back to the root and read
+again. And thats it for the format. My big concern throughout the
+development was, how the hell am I going to tell where the bitstream ends?
+My first idea was to store the number of characters in the header but that
+felt too constraining, I wanted to store just the index of the first empty
+bit, which sounds good, but the implementation is extreme since you can't
+tell where the file stream "ends" without more lines of code that just
+complicate stuff. I have thought of adding a "termination character", which
+happened to be 0 and worked just fine with greater sets of characters, but
+when I tested this thing on a genome (which is all comprised of 4 letters),
+the results weren't really bad (28% instead of 25%), it just felt really
+limiting and obviously bad design. At the end, I have added a 32 bit number
+to the header which is supposed to hold the number of characters, which is
+about 4 Gibibytes (minus one byte) and as I said, I don't like limitations
+but a 4 Gibibyte text file is hardly gonna get even created (to make sense).
+The whole error system has been reworked to be more readable and needed error
+checks were added at the end of the process (things like problems with popping 
+an empty heap)
+
+I am very content with how this turned out to work. The average size reduction 
+when compressing english text is ~55% (King James Bible in this instance)

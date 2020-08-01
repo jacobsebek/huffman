@@ -1,0 +1,6 @@
+Stage 1
+This program should be able to compress a user-submitted
+text file in the command line and save it in an as efficient
+as possible binary format ".huf", which encorporate the raw
+data with the tree itself. It should also be able to decompress
+this data and output it into a file.
