@@ -8,8 +8,6 @@ It reads these files and produces new input binary files, learn how to use this 
 in the following tutorial.
 
 TUTORIAL :
-The whole project can be compiled with the makefile in the directory,
-which creates a ./run file 
 The program needs 3 parameters : 
     1. "-c" : Compress the input file, output to the output file 
        "-ci" : "-c" with debug information
