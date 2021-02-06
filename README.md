@@ -6,7 +6,6 @@ For example, it is capable of losslessely compressing English text to about half
 ![Example image](screenshot.png "Example command line usage")
 
 ## Compilation
-If you are using Windows, you can download the binary executable from [releases](../../releases).  
 The program is compatible with C99 and uses only the standard library, plugging it into your compiler of choice should be enough (let me know about any issues). 
 You can compile it with GCC on *nix systems or MinGW on Windows (with an `.exe`extension, of course) with:
 ```
