@@ -181,7 +181,7 @@ void compress(FILE* in, FILE* out, const _Bool debug)
 
     bit_wflush(out);
 
-    printf("\nCompressed to %.1f%% of the base size.", (3+((leaves*2-1)/8.0)+leaves+(count_out/8.0))/count_chs*100.0);
+    printf("\nCompressed to %.1f%% of the base size.", ((double)ftell(out)/count_chs)*100.0);
 
     node_destroy(heap_top(heap)); // Destroy the whole tree recursively
     heap_destroy(heap);
