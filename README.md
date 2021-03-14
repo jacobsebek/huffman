@@ -7,7 +7,7 @@ For example, it is capable of losslessely compressing English text to about half
 
 ## Compilation
 The program is compatible with C99 and uses only the standard library, plugging it into your compiler of choice should be enough (let me know about any issues). 
-You can compile it with GCC on *nix systems or MinGW on Windows (with an `.exe`extension, of course) with:
+You can compile it with GCC on *nix systems or MinGW on Windows with:
 ```
 gcc src/*.c -Iinclude -o ./huffman
 ```
@@ -21,8 +21,8 @@ The program always needs three parameters, in this exact order:
 2. Input file
 3. Output file  
 
-For example, to compress the file `file.txt` and output to the file `output.txt`, you would use:
+For example, to compress the file `file.txt` and output to the file `output.huf`, you would use:
 ```
-huffman -c file.txt output.txt
+huffman -c file.txt output.huf
 ```
 For a more detailed description, check out [the documentation file](<doc/Stage 1/doc.txt>).
